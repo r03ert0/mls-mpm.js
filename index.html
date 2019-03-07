@@ -24,7 +24,7 @@
             height: 92%;
             top: 4%;
             left: 4%;
-            border: thin solid #4FB99F;
+            border: thin solid red;
         }
     </style>
     <div id="view">
@@ -49,15 +49,21 @@
             requestAnimationFrame(step);
             iter++;
 
-            // Advance simulation
-            advance(dt);
+            const mustDrawAndTime = iter%5 === 0;
 
-            if(iter%5==0) {
-                console.log(iter);
+            // Advance simulation
+            mustDrawAndTime&&console.time('advance');
+            advance(dt);
+            mustDrawAndTime&&console.timeEnd('advance');
+
+            if(mustDrawAndTime) {
+                console.time('display');
                 display();
+                console.timeEnd('display');
             }
         }
 
+        console.time('setup');
         add_rnd_square([0.55,0.45], 0xED553B);
         add_rnd_square([0.45,0.65], 0xF2B134);
         add_rnd_square([0.55,0.85], 0x168587);
@@ -67,6 +73,7 @@
             document.getElementById("view").innerHTML += `<div id='${i}' class='point' style='background:#${p.c.toString(16)}'></div>`;
             i++;
         }
+        console.timeEnd('setup');
         step();
     </script>
 </html>

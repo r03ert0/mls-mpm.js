@@ -1,0 +1,17 @@
+Times of the original version
+
+setup: 10122.13623046875ms
+(index):57 advance: 23.135986328125ms
+(index):62 display: 15.4560546875ms
+(index):57 advance: 22.483154296875ms
+(index):62 display: 14.095703125ms
+(index):57 advance: 23.5830078125ms
+(index):62 display: 11.10107421875ms
+(index):57 advance: 22.5029296875ms
+(index):62 display: 11.519287109375ms
+(index):57 advance: 23.137939453125ms
+(index):62 display: 11.700927734375ms
+(index):57 advance: 22.462890625ms
+(index):62 display: 11.376953125ms
+(index):57 advance: 22.753173828125ms
+(index):62 display: 11.2470703125ms
