@@ -52,7 +52,6 @@ function advance(dt) {
         let mu=mu_0*e;
         let lambda=lambda_0*e;
 
-
         // Cauchy stress times dt and inv_dx
         // original taichi: stress = -4*inv_dx*inv_dx*dt*vol*( 2*mu*(p.F-r)*transposed(p.F) + lambda*(J-1)*J )
         // (in taichi matrices are coded transposed)
