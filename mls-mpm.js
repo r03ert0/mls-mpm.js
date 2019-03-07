@@ -1,3 +1,5 @@
+"use strict";
+
 const n = 80; // grid resolution (cells)
 const dt = 1e-4; // time step for simulation
 const dx = 1.0 / n; // cell width
@@ -36,7 +38,7 @@ function advance(dt) {
     }
 
     // 1. Particles to grid
-    for (p of particles) {
+    for (let p of particles) {
         const base_coord=sub2D(sca2D(p.x, inv_dx), [0.5,0.5]).map((o)=>parseInt(o)); // element-wise floor
         const fx = sub2D(sca2D(p.x, inv_dx), base_coord); // base position in grid units
 
@@ -48,9 +50,9 @@ function advance(dt) {
         ];
 
         // Snow-like hardening
-        let e = Math.exp(hardening * (1.0 - p.Jp));
-        let mu=mu_0*e;
-        let lambda=lambda_0*e;
+        const e = Math.exp(hardening * (1.0 - p.Jp));
+        const mu=mu_0*e;
+        const lambda=lambda_0*e;
 
         // Cauchy stress times dt and inv_dx
         // original taichi: stress = -4*inv_dx*inv_dx*dt*vol*( 2*mu*(p.F-r)*transposed(p.F) + lambda*(J-1)*J )
@@ -64,8 +66,8 @@ function advance(dt) {
 
         for (let i = 0; i < 3; i++) {
             for (let j = 0; j < 3; j++) { // scatter to grid
-                const dpos = [i-fx[0], j-fx[1]].map(o=>o*dx);
-                const mv = [...p.v.map(o=>o*particle_mass), particle_mass]; // translational momentum
+                const dpos = [(i-fx[0])*dx, (j-fx[1])*dx];
+                const mv = [p.v[0]*particle_mass, p.v[1]*particle_mass, particle_mass]; // translational momentum
                 const ii = gridIndex(base_coord[0] + i, base_coord[1] + j);
                 const weight = w[i][0] * w[j][1];
                 grid[ii] = add3D(grid[ii], sca3D(add3D(mv, [...mulMatVec(affine, dpos),0]), weight));
@@ -98,7 +100,7 @@ function advance(dt) {
     }
 
     // 2. Grid to particle
-    for (p of particles) {
+    for (let p of particles) {
         const base_coord=sub2D(p.x.map(o=>o*inv_dx),[0.5,0.5]).map(o=>parseInt(o));// element-wise floor
         const fx = sub2D(sca2D(p.x, inv_dx), base_coord); // base position in grid units
         const w = [
@@ -140,8 +142,8 @@ function advance(dt) {
 }
 
 function add_rnd_square(center, c) {
-    for (let i = 0; i < 1000; i++)  {
+    for (let i = 0; i < 1000; i++) {
         // Randomly sample 1000 particles in the square
-        particles.push(new Particle(add2D([Math.random()*2-1, Math.random()*2-1].map(o=>o*0.08), center), c));
+        particles.push(new Particle(add2D([(Math.random()*2-1)*0.08, (Math.random()*2-1)*0.08], center), c));
     }
 }

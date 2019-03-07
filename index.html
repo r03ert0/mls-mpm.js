@@ -1,72 +1,73 @@
 <html>
-    <style>
-        body {
-            background: grey;
-        }
-        .point {
-            position: absolute;
-            width: 2px;
-            height: 2px;
-        }
-        #view {
-            position:absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate( -50%, -50% );
-            width:600px;
-            height:600px;
-            background:black;
-        }
-        #boundary {
-            display: inline-block;
-            position: absolute;
-            width: 92%;
-            height: 92%;
-            top: 4%;
-            left: 4%;
-            border: thin solid #4FB99F;
-        }
-    </style>
-    <div id="view">
-        <div id="boundary" >
-        </div>
-    </div>
-    <script src="algebra.js"></script>
-    <script src="mls-mpm.js"></script>
-    <script>
-        let iter = 0;
-
-        function display() {
-            let i=0;
-            for(p of particles) {
-                document.getElementById(`${i}`).style.left=`${600*p.x[0]}px`;
-                document.getElementById(`${i}`).style.bottom=`${600*p.x[1]}px`;
-                i++;
+    <head>
+        <style>
+            body {
+                background: grey;
             }
-        }
 
-        function step() {
-            requestAnimationFrame(step);
-            iter++;
-
-            // Advance simulation
-            advance(dt);
-
-            if(iter%5==0) {
-                console.log(iter);
-                display();
+            canvas {
+                width:600px;
+                width:600px;
+                position:absolute;
+                top:50%;
+                left:50%;
+                transform:translate(-50%, -50%);
             }
-        }
+        </style>
+    </head>
+    <body>
+        <canvas id="canvas" width="600" height="600"></canvas>
+        <script src="algebra.js"></script>
+        <script src="mls-mpm.js"></script>
+        <script>
+            "use strict";
 
-        add_rnd_square([0.55,0.45], 0xED553B);
-        add_rnd_square([0.45,0.65], 0xF2B134);
-        add_rnd_square([0.55,0.85], 0x168587);
+            const renderEvery = 5;
+            const enableTiming = false;
+            const canvas = document.getElementById('canvas');
+            const context = canvas.getContext('2d', { alpha: false });
+            let iter = 0;
 
-        let i = 0;
-        for(p of particles) {
-            document.getElementById("view").innerHTML += `<div id='${i}' class='point' style='background:#${p.c.toString(16)}'></div>`;
-            i++;
-        }
-        step();
-    </script>
+            function display() {
+                context.fillStyle = '#000000';
+                context.fillRect(0, 0, 600, 600);
+
+                context.lineWidth = 0.5;
+                context.strokeStyle = '#CCCCCC';
+                context.strokeRect(24, 24, 552, 552);
+
+                for(let p of particles) {
+                    context.fillStyle = `#${p.c.toString(16)}`;
+                    context.fillRect(600*p.x[0]-1, 600-600*p.x[1]-1, 2, 2);
+                }
+            }
+
+            function step() {
+                requestAnimationFrame(step);
+                iter++;
+
+                const mustRender = iter % renderEvery === 0;
+                const mustTime = mustRender && enableTiming;
+
+                // Advance simulation
+                mustTime && console.time('advance');
+                advance(dt);
+                mustTime && console.timeEnd('advance');
+
+                if(mustRender) {
+                    mustTime && console.time('display');
+                    display();
+                    mustTime && console.timeEnd('display');
+                }
+            }
+
+            enableTiming && console.time('setup');
+            add_rnd_square([0.55,0.45], 0xED553B);
+            add_rnd_square([0.45,0.65], 0xF2B134);
+            add_rnd_square([0.55,0.85], 0x168587);
+            enableTiming && console.timeEnd('setup');
+
+            step();
+        </script>
+    </body>
 </html>
