@@ -1,0 +1,65 @@
+<html>
+    <style>
+        .point {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+        }
+    </style>
+    <div id="view" style="width:600px;height:600px;background:black;position:relative">
+        <div style="display:inline-block;position:absolute;width:92%;height:92%;top:4%;left:4%;border:thin solid #4FB99F">
+        </div>
+    </div>
+    <script src="algebra.js"></script>
+    <script src="mls-mpm88.js"></script>
+    <script>
+        let iter = 0;
+        function display() {
+            let i=0;
+            for(p of particles) {
+                document.getElementById(`${i}`).style.left=`${600*p.x[0]}px`;
+                document.getElementById(`${i}`).style.bottom=`${600*p.x[1]}px`;
+                i++;
+            }
+        }
+        function step() {
+            requestAnimationFrame(step);
+            iter++;
+
+            // Advance simulation
+            advance(dt);
+
+            if(iter%5==0) {
+                console.log(iter);
+                display();
+            }
+
+            /*
+            // growth
+            if(i<10) {
+                for (p of particles) {
+                    if(p.c == 0xED553B) {
+                        p.F = mulMat(p.F, [0.95,0, 0,0.95]);
+                    }
+                }
+            }
+            // damping
+            for (p of particles) {
+                p.v = sca2D(p.v, 0.9);
+            }
+            */
+        }
+
+        add_rnd_square([0.55,0.45], 0xED553B);
+        add_rnd_square([0.45,0.65], 0xF2B134);
+        add_rnd_square([0.55,0.85], 0x168587);
+
+        let i = 0;
+        for(p of particles) {
+            document.getElementById("view").innerHTML += `<div id='${i}' class='point' style='background:#${p.c.toString(16)}'></div>`;
+            i++;
+        }
+
+        step();
+    </script>
+</html>
