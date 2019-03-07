@@ -2,6 +2,8 @@
 
 Roberto Toro, March 2019
 
+<img src="https://user-images.githubusercontent.com/2310732/53946632-7d367780-40c4-11e9-8ceb-93772240351b.gif" width="400px">
+
 This is a javascript version of the awesome implementation in 88 lines of c++ of the Moving Least Squares Material Point Method, by Yuanming Hu.
 
 The original repository is https://github.com/yuanming-hu/taichi_mpm, and the c++ code can be directly downloaded from http://bit.ly/mls-mpm88. This link contains 2 files: `taichi.h`, with linear algebra and helper functions; and `mls-mpm88.cpp` with the actual implementation of the material point method.
