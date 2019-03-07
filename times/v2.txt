@@ -1,0 +1,17 @@
+Enforce strict mode and avoid a 3000 .map() during the setup
+
+setup: 3.07080078125ms
+(index):53 advance: 22.802001953125ms
+(index):58 display: 4.047119140625ms
+(index):53 advance: 21.8701171875ms
+(index):58 display: 4.5498046875ms
+(index):53 advance: 22.09716796875ms
+(index):58 display: 2.27490234375ms
+(index):53 advance: 22.32177734375ms
+(index):58 display: 2.2939453125ms
+(index):53 advance: 21.87109375ms
+(index):58 display: 2.325927734375ms
+(index):53 advance: 22.125732421875ms
+(index):58 display: 2.24609375ms
+(index):53 advance: 21.94091796875ms
+(index):58 display: 2.256103515625ms

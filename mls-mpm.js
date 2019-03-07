@@ -1,3 +1,5 @@
+"use strict";
+
 const n = 80; // grid resolution (cells)
 const dt = 1e-4; // time step for simulation
 const dx = 1.0 / n; // cell width
@@ -36,7 +38,7 @@ function advance(dt) {
     }
 
     // 1. Particles to grid
-    for (p of particles) {
+    for (let p of particles) {
         const base_coord=sub2D(sca2D(p.x, inv_dx), [0.5,0.5]).map((o)=>parseInt(o)); // element-wise floor
         const fx = sub2D(sca2D(p.x, inv_dx), base_coord); // base position in grid units
 
@@ -99,7 +101,7 @@ function advance(dt) {
     }
 
     // 2. Grid to particle
-    for (p of particles) {
+    for (let p of particles) {
         const base_coord=sub2D(p.x.map(o=>o*inv_dx),[0.5,0.5]).map(o=>parseInt(o));// element-wise floor
         const fx = sub2D(sca2D(p.x, inv_dx), base_coord); // base position in grid units
         const w = [
@@ -141,8 +143,8 @@ function advance(dt) {
 }
 
 function add_rnd_square(center, c) {
-    for (let i = 0; i < 1000; i++)  {
+    for (let i = 0; i < 1000; i++) {
         // Randomly sample 1000 particles in the square
-        particles.push(new Particle(add2D([Math.random()*2-1, Math.random()*2-1].map(o=>o*0.08), center), c));
+        particles.push(new Particle(add2D([(Math.random()*2-1)*0.08, (Math.random()*2-1)*0.08], center), c));
     }
 }
