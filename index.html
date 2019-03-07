@@ -8,9 +8,10 @@
             canvas {
                 width:600px;
                 width:600px;
+                position:absolute;
                 top:50%;
                 left:50%;
-                transition:translate(-50%, -50%);
+                transform:translate(-50%, -50%);
             }
         </style>
     </head>
@@ -19,13 +20,15 @@
         <script src="algebra.js"></script>
         <script src="mls-mpm.js"></script>
         <script>
+            "use strict";
+
+            const renderEvery = 5;
+            const enableTiming = false;
             const canvas = document.getElementById('canvas');
             const context = canvas.getContext('2d', { alpha: false });
             let iter = 0;
 
             function display() {
-                "use strict";
-
                 context.fillStyle = '#000000';
                 context.fillRect(0, 0, 600, 600);
 
@@ -40,30 +43,29 @@
             }
 
             function step() {
-                "use strict";
-
                 requestAnimationFrame(step);
                 iter++;
 
-                const mustDrawAndTime = iter%5 === 0;
+                const mustRender = iter % renderEvery === 0;
+                const mustTime = mustRender && enableTiming;
 
                 // Advance simulation
-                mustDrawAndTime&&console.time('advance');
+                mustTime && console.time('advance');
                 advance(dt);
-                mustDrawAndTime&&console.timeEnd('advance');
+                mustTime && console.timeEnd('advance');
 
-                if(mustDrawAndTime) {
-                    console.time('display');
+                if(mustRender) {
+                    mustTime && console.time('display');
                     display();
-                    console.timeEnd('display');
+                    mustTime && console.timeEnd('display');
                 }
             }
 
-            console.time('setup');
+            enableTiming && console.time('setup');
             add_rnd_square([0.55,0.45], 0xED553B);
             add_rnd_square([0.45,0.65], 0xF2B134);
             add_rnd_square([0.55,0.85], 0x168587);
-            console.timeEnd('setup');
+            enableTiming && console.timeEnd('setup');
 
             step();
         </script>

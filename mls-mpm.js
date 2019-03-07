@@ -33,7 +33,7 @@ function gridIndex(i, j) { return i + (n+1)*j; }
 
 function advance(dt) {
     // Reset grid
-    for(let i = 0; i < (n+1)**2; i++) {
+    for(let i = 0; i < (n+1)*(n+1); i++) {
         grid[i] = [0,0,0];
     }
 
