@@ -33,7 +33,7 @@ function gridIndex(i, j) { return i + (n+1)*j; }
 
 function advance(dt) {
     // Reset grid
-    for(let i = 0; i < (n+1)*(n+1); i++) {
+    for(let i = 0; i < (n+1)**2; i++) {
         grid[i] = [0,0,0];
     }
 
@@ -50,9 +50,9 @@ function advance(dt) {
         ];
 
         // Snow-like hardening
-        let e = Math.exp(hardening * (1.0 - p.Jp));
-        let mu=mu_0*e;
-        let lambda=lambda_0*e;
+        const e = Math.exp(hardening * (1.0 - p.Jp));
+        const mu=mu_0*e;
+        const lambda=lambda_0*e;
 
 
         // Cauchy stress times dt and inv_dx
@@ -67,8 +67,8 @@ function advance(dt) {
 
         for (let i = 0; i < 3; i++) {
             for (let j = 0; j < 3; j++) { // scatter to grid
-                const dpos = [i-fx[0], j-fx[1]].map(o=>o*dx);
-                const mv = [...p.v.map(o=>o*particle_mass), particle_mass]; // translational momentum
+                const dpos = [(i-fx[0])*dx, (j-fx[1])*dx];
+                const mv = [p.v[0]*particle_mass, p.v[1]*particle_mass, particle_mass]; // translational momentum
                 const ii = gridIndex(base_coord[0] + i, base_coord[1] + j);
                 const weight = w[i][0] * w[j][1];
                 grid[ii] = add3D(grid[ii], sca3D(add3D(mv, [...mulMatVec(affine, dpos),0]), weight));

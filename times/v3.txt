@@ -1,0 +1,17 @@
+Avoid two .map() in hot path, use const instead on let on 3 constants
+
+setup: 3.10400390625ms
+(index):53 advance: 17.873046875ms
+(index):58 display: 3.9208984375ms
+(index):53 advance: 18.314208984375ms
+(index):58 display: 4.376220703125ms
+(index):53 advance: 17.791015625ms
+(index):58 display: 2.259033203125ms
+(index):53 advance: 17.760009765625ms
+(index):58 display: 2.21484375ms
+(index):53 advance: 19.087158203125ms
+(index):58 display: 2.165283203125ms
+(index):53 advance: 17.930908203125ms
+(index):58 display: 2.248046875ms
+(index):53 advance: 18.241943359375ms
+(index):58 display: 2.14208984375ms
