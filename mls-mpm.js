@@ -64,10 +64,10 @@ function advance(dt) {
         const stress = addMat( mulMat(subMat(transposed(p.F),r),p.F).map(o=>o*2*mu), [k2,0,0,k2] ).map(o=>o*k1);
         const affine = addMat(stress, p.C.map(o=>o*particle_mass));
 
+        const mv = [p.v[0]*particle_mass, p.v[1]*particle_mass, particle_mass]; // translational momentum
         for (let i = 0; i < 3; i++) {
             for (let j = 0; j < 3; j++) { // scatter to grid
                 const dpos = [(i-fx[0])*dx, (j-fx[1])*dx];
-                const mv = [p.v[0]*particle_mass, p.v[1]*particle_mass, particle_mass]; // translational momentum
                 const ii = gridIndex(base_coord[0] + i, base_coord[1] + j);
                 const weight = w[i][0] * w[j][1];
                 grid[ii] = add3D(grid[ii], sca3D(add3D(mv, [...mulMatVec(affine, dpos),0]), weight));
@@ -116,7 +116,7 @@ function advance(dt) {
                 const ii = gridIndex(base_coord[0] + i, base_coord[1] + j);
                 const weight = w[i][0] * w[j][1];
                 p.v = add2D(p.v, sca2D(grid[ii], weight)); // velocity
-                p.C = addMat(p.C, outer_product(sca2D(grid[ii],weight), dpos).map(o=>o*4*inv_dx)); // APIC C (Compatible affine particle-in-cell)
+                p.C = addMat(p.C, outer_product(sca2D(grid[ii],weight), dpos).map(o=>o*4*inv_dx)); // APIC (affine particle-in-cell); p.C is the affine momentum
             }
         }
 
