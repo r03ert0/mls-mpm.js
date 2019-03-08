@@ -12,3 +12,7 @@ In this javascript version, the linear algebra functions are in the `algebra.js`
 
 A main tricky thing in the translation, which still is not completely solved, is that matrices in Taichi are coded transposed. In the translation, there's still a mix of functions that work transposed (svd, polar_decomp, mulMatVec), and those that don't. That makes some parts of the code a bit convoluted. Ideally, I'd like to move all the code to standard non-transposed matrix encoding.
 
+### Acknowledgements
+
+* Thanks to [Yuanming Hu](https://github.com/yuanming-hu) for making the c++ code available and for help on understanding it.
+* Thanks to [Kevin Chapelier]() for making the javascript code x5 faster and reducing the initialisation from several seconds to barely noticeable.
