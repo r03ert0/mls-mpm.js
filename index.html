@@ -23,7 +23,7 @@
             "use strict";
 
             const renderEvery = 5;
-            const enableTiming = false;
+            const enableTiming = true;
             const canvas = document.getElementById('canvas');
             const context = canvas.getContext('2d', { alpha: false });
             let iter = 0;
@@ -37,13 +37,12 @@
                 context.strokeRect(24, 24, 552, 552);
 
                 for(let p of particles) {
-                    context.fillStyle = `#${p.c.toString(16)}`;
-                    context.fillRect(600*p.x[0]-1, 600-600*p.x[1]-1, 2, 2);
+                    context.fillStyle = p.c;
+                    context.fillRect(600*p.x[0]-1, 599-600*p.x[1], 2, 2);
                 }
             }
 
             function step() {
-                requestAnimationFrame(step);
                 iter++;
 
                 const mustRender = iter % renderEvery === 0;
@@ -59,12 +58,14 @@
                     display();
                     mustTime && console.timeEnd('display');
                 }
+
+                requestAnimationFrame(step);
             }
 
             enableTiming && console.time('setup');
-            add_rnd_square([0.55,0.45], 0xED553B);
-            add_rnd_square([0.45,0.65], 0xF2B134);
-            add_rnd_square([0.55,0.85], 0x168587);
+            add_rnd_square([0.55,0.45], '#ED553B');
+            add_rnd_square([0.45,0.65], '#F2B134');
+            add_rnd_square([0.55,0.85], '#168587');
             enableTiming && console.timeEnd('setup');
 
             step();
