@@ -101,11 +101,10 @@ function advance(dt) {
         affine[2] = (stressTemp[2]*mu2) * k1 + p.C[2] * particle_mass;
         affine[3] = (k2 + stressTemp[3]*mu2) * k1 + p.C[3] * particle_mass;
 
-        
+        const mv = [p.v[0]*particle_mass, p.v[1]*particle_mass, particle_mass]; // translational momentum
         for (let i = 0; i < 3; i++) {
             for (let j = 0; j < 3; j++) { // scatter to grid
                 const dpos = [(i-fx[0])*dx, (j-fx[1])*dx];
-                const mv = [p.v[0]*particle_mass, p.v[1]*particle_mass, particle_mass]; // translational momentum
                 const ii = gridIndex(base_coord[0] + i, base_coord[1] + j);
                 const weight = w[i * 2] * w[j * 2 + 1];
 
