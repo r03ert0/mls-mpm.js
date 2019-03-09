@@ -15,4 +15,4 @@ A main tricky thing in the translation, which still is not completely solved, is
 ### Acknowledgements
 
 * Thanks to [Yuanming Hu](https://github.com/yuanming-hu) for making the C++ code available and for help on understanding it.
-* Thanks to [Kevin Chapelier]() for making the javascript code x5 faster and reducing the initialisation from several seconds to barely noticeable.
+* Thanks to [Kevin Chapelier](https://github.com/kchapelier) for making the javascript code x5 faster and reducing the initialisation from several seconds to barely noticeable.
