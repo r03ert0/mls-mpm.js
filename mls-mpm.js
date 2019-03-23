@@ -116,7 +116,7 @@ function advance(dt) {
                 const ii = gridIndex(base_coord[0] + i, base_coord[1] + j);
                 const weight = w[i][0] * w[j][1];
                 p.v = add2D(p.v, sca2D(grid[ii], weight)); // velocity
-                p.C = addMat(p.C, outer_product(sca2D(grid[ii],weight), dpos).map(o=>o*4*inv_dx)); // APIC C (Compatible affine particle-in-cell)
+                p.C = addMat(p.C, outer_product(sca2D(grid[ii],weight), dpos).map(o=>o*4*inv_dx)); // APIC (affine particle-in-cell); p.C is the affine momentum
             }
         }
 
