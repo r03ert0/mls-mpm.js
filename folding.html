@@ -1,0 +1,96 @@
+<html>
+    <head>
+        <style>
+            body {
+                background: grey;
+            }
+
+            canvas {
+                width:600px;
+                width:600px;
+                position:absolute;
+                top:50%;
+                left:50%;
+                transform:translate(-50%, -50%);
+            }
+        </style>
+    </head>
+    <body>
+        <canvas id="canvas" width="600" height="600"></canvas>
+        <script src="algebra.js"></script>
+        <script src="folding.js"></script>
+        <script>
+            "use strict";
+
+            const renderEvery = 5;
+            const enableTiming = false;
+            const canvas = document.getElementById('canvas');
+            const context = canvas.getContext('2d', { alpha: false });
+            let iter = 0;
+
+            function display() {
+
+                context.fillStyle = '#000000';
+                context.fillRect(0, 0, 600, 600);
+
+                context.lineWidth = 1;
+                context.strokeStyle = '#4FB99F';
+                context.strokeRect(24, 24, 552, 552);
+
+                for(let p of particles) {
+                    context.fillStyle = `#${p.c.toString(16)}`;
+                    context.fillRect(600*p.x[0]-1, 600-600*p.x[1]-1, 2, 2);
+                }
+            }
+
+            function step() {
+                requestAnimationFrame(step);
+                iter++;
+
+                const mustRender = iter % renderEvery === 0;
+                const mustTime = mustRender && enableTiming;
+
+                // Advance simulation
+                mustTime && console.time('advance');
+
+                advance(dt);
+
+                // growth: obtained by shrinking the deformation tensor
+                if(iter<10) {
+                    for (let ind = 0; ind<particles.length; ind++) {
+                        const p = particles[ind];
+                        if(p.c == 0xED553B) {
+                            p.F[0] *= 0.95;
+                            p.F[1] *= 0.95;
+                            p.F[2] *= 0.95;
+                            p.F[3] *= 0.95;
+                        }
+                    }
+                }
+
+                // damping: obtaining by shrinking the particle's velocity
+                for(let ind = 0; ind<particles.length; ind++) {
+                    const p = particles[ind];
+                    p.v[0] *= 0.9;
+                    p.v[1] *= 0.9;
+                }
+
+                mustTime && console.timeEnd('advance');
+
+                if(mustRender) {
+                    mustTime && console.time('display');
+                    display();
+                    mustTime && console.timeEnd('display');
+                }
+            }
+
+            enableTiming && console.time('setup');
+            add_disc([0.5, 0.5], 0.22, 0.24, 0xED553B);
+            add_disc([0.5, 0.5], 0.1, 0.22, 0x168587);
+            enableTiming && console.timeEnd('setup');
+
+            /* Start the simulation */
+            step();
+        </script>
+    </body>
+</html>
